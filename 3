@@ -1,0 +1,70 @@
+-- Нужно для дебага и вашего удобства
+CREATE TABLE Пилоты (
+id INTEGER PRIMARY KEY,
+pilot_id TEXT NOT NULL,
+name TEXT NOT NULL,
+age TEXT NOT NULL,
+rank TEXT NOT NULL,
+education_level TEXT NOT NULL
+);
+
+CREATE TABLE Самолеты (
+id INTEGER PRIMARY KEY,
+plane_id TEXT NOT NULL,
+capacity TEXT NOT NULL,
+cargo_flg TEXT NOT NULL
+);
+
+CREATE TABLE Рейсы (
+id INTEGER PRIMARY KEY,
+flight_id TEXT NOT NULL,
+flight_dt TEXT NOT NULL,
+plane_id TEXT NOT NULL,
+first_pilot_id TEXT NOT NULL,
+second_pilot_id TEXT NOT NULL,
+destination TEXT NOT NULL,
+quantity TEXT NOT NULL
+);
+
+-- insert some values
+INSERT INTO Пилоты VALUES (1,  '11', 'a','50','1', '5');
+INSERT INTO Пилоты VALUES (2,  '12', 'b','50','1', '5');
+INSERT INTO Пилоты VALUES (10, '13', 'c','50','1', '5');
+INSERT INTO Пилоты VALUES (11, '14', 'd','50','1', '5');
+INSERT INTO Пилоты VALUES (12, '15', 'e','50','1', '5');
+INSERT INTO Пилоты VALUES (13, '16', 'f','50','1', '5');
+INSERT INTO Пилоты VALUES (14, '17', 'g','50','1', '5');
+INSERT INTO Пилоты VALUES (15, '18', 'h','50','1', '5');
+INSERT INTO Пилоты VALUES (16, '19', 'i','50','1', '5');
+INSERT INTO Пилоты VALUES (17, '20', 'w','50','1', '5');
+INSERT INTO Пилоты VALUES (18, '21', 'y','50','1', '5');
+
+
+INSERT INTO Самолеты VALUES (7, '21', '35', '1');
+INSERT INTO Рейсы VALUES (3, '31', '08.2022','21','11','12', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (4, '32', '08.2022','21','12','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (5, '33', '08.2022','21','13','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (6, '34', '08.2022','21','14','12', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (20, '35', '08.2022','21','15','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (21, '36', '08.2022','21','16','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (22, '37', '08.2022','21','17','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (23, '38', '08.2022','21','18','12', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (24, '39', '08.2022','21','19','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (25, '40', '08.2022','21','20','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (26, '41', '08.2022','21','12','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (27, '42', '08.2022','21','11','12', 'Шереметьево','40');
+
+
+
+
+-- Сам запрос
+SELECT p.name from Рейсы
+left join Пилоты as p
+ON Рейсы.first_pilot_id = p.pilot_id
+
+left join Самолеты
+ON Рейсы.plane_id = Самолеты.plane_id
+WHERE
+flight_dt = '08.2022' and cargo_flg = 1
+GROUP BY p.pilot_id
+ORDER BY COUNT(flight_id) DESC LIMIT 10
