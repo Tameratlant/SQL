@@ -1,0 +1,47 @@
+-- Нужно для дебага и вашего удобства
+CREATE TABLE Пилоты (
+id INTEGER PRIMARY KEY,
+pilot_id TEXT NOT NULL,
+name TEXT NOT NULL,
+age TEXT NOT NULL,
+rank TEXT NOT NULL,
+education_level TEXT NOT NULL
+);
+
+CREATE TABLE Самолеты (
+id INTEGER PRIMARY KEY,
+plane_id TEXT NOT NULL,
+capacity TEXT NOT NULL,
+cargo_flg TEXT NOT NULL
+);
+
+CREATE TABLE Рейсы (
+id INTEGER PRIMARY KEY,
+flight_id TEXT NOT NULL,
+flight_dt TEXT NOT NULL,
+plane_id TEXT NOT NULL,
+first_pilot_id TEXT NOT NULL,
+second_pilot_id TEXT NOT NULL,
+destination TEXT NOT NULL,
+quantity TEXT NOT NULL
+);
+
+-- insert some values
+INSERT INTO Пилоты VALUES (1, '11', 'Биба','20','1', '5');
+INSERT INTO Пилоты VALUES (2, '12', 'Боба','50','1', '5');
+INSERT INTO Самолеты VALUES (7, '21', '35', '0');
+INSERT INTO Рейсы VALUES (3, '31', '08.2022','21','12','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (4, '32', '08.2022','21','12','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (5, '33', '08.2022','21','12','11', 'Шереметьево','40');
+INSERT INTO Рейсы VALUES (6, '34', '08.2022','21','11','12', 'Шереметьево','40');
+
+
+-- Сам запрос
+SELECT name from Пилоты left join Рейсы 
+ON Пилоты.pilot_id = Рейсы.first_pilot_id or Пилоты.pilot_id = Рейсы.second_pilot_id
+left join Самолеты
+ON Рейсы.plane_id = Самолеты.plane_id WHERE
+age > 45 AND
+cargo_flg = 0 AND
+quantity > 30
+GROUP BY pilot_id
